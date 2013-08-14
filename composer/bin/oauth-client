@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+require realpath(__DIR__.'/../..').'/vendor/autoload.php';
+
+$app = new \Symfony\Component\Console\Application('oauth-client');
+$app->add(new \GridsBy\OAuth\Command\AccessTokenCommand());
+$app->add(new \GridsBy\OAuth\Command\AuthorizeTokenCommand());
+$app->add(new \GridsBy\OAuth\Command\RequestTokenCommand());
+$app->run();

@@ -1,0 +1,19 @@
+{
+    "name": "gridsby/oauth-cli",
+    "description": "CLI-tool for OAuth tests",
+    "require": {
+        "symfony/yaml": "~2.3",
+        "symfony/console": "~2.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey Zakhlestin",
+            "email": "indeyets@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "GridsBy\\OAuth": "src/" }
+    },
+    "bin": ["composer/bin/oauth-client"]
+}
