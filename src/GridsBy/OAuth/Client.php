@@ -18,6 +18,7 @@ class Client
     {
         static $defaults = [
             'urls' => [
+                'consumer_register' => 'https://dev.grids.by.local/apps/',
                 'request_token_url' => 'https://api.grids.by.local/oauth/request_token',
                 'authorization_url' => 'https://dev.grids.by.local/oauth/authorize',
                 'access_token_url' =>  'https://api.grids.by.local/oauth/access_token',
@@ -55,12 +56,12 @@ class Client
         return $this->config_data;
     }
 
-    public function fetchRequestToken()
+    public function fetchRequestToken($callback = null)
     {
         $this->requireConsumer();
         $oauth = $this->initOAuth();
 
-        $response = $oauth->getRequestToken($this->config_data['urls']['request_token_url']);
+        $response = $oauth->getRequestToken($this->config_data['urls']['request_token_url'], $callback);
         if (false === $response) {
             throw new \RuntimeException("Failed fetching request token, response was: " . $oauth->getLastResponse());
         }

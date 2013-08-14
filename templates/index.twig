@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>OAuth client app <small>for testing api.grids.by</small></h1>
+
+        <table class="table table-condensed">
+            <tr>
+                <td>consumer_token</td>
+                <td>{{ tokens.consumer_token }}</td>
+                <td><a data-toggle="modal" href="#consumerModal" class="btn btn-primary">Ser Consumer Token</a></td>
+            </tr>
+            <tr>
+                <td>request_token</td>
+                <td>{{ tokens.request_token }}</td>
+                <td>
+                    <form action="" method="POST" class="form-inline">
+                        <input type="hidden" name="action" value="request_token"/>
+                        <button class="btn btn-primary">Get Request Token</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>access_token</td>
+                <td>{{ tokens.access_token }}</td>
+                <td>
+                    <form action="" method="POST" class="form-inline">
+                        <input type="hidden" name="action" value="access_token"/>
+                        <button class="btn btn-primary">Get Access Token</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="modal fade" id="consumerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Set Consumer</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Register your app <a href="{{ urls.consumer_register }}" target="_blank">here</a> and fill credentials below</p>
+
+                    <div class="form-group">
+                        <label for="consumer_token">Consumer Token:</label>
+                        <input type="text" id="consumer_token" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="consumer_secret">Consumer Secret:</label>
+                        <textarea id="consumer_secret" class="form-control" cols="80" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</body>
+</html>
+
