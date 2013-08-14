@@ -14,6 +14,11 @@ class Client
         $this->readConfig();
     }
 
+    public function configPath()
+    {
+        return $this->config_path;
+    }
+
     public function readConfig()
     {
         static $defaults = [

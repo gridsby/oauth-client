@@ -8,7 +8,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>OAuth client app <small>for testing api.grids.by</small></h1>
+        <div class="jumbotron">
+            <h1>OAuth client app <small>for testing api.grids.by</small></h1>
+            <hr>
+            <p>You can edit OAuth config manually in <code>{{ config_file }}</code></p>
+        </div>
 
         <table class="table table-condensed">
             <tr>
@@ -51,11 +55,11 @@
 
                     <div class="form-group">
                         <label for="consumer_token">Consumer Token:</label>
-                        <input type="text" id="consumer_token" class="form-control"/>
+                        <input type="text" id="consumer_token" class="form-control" value="{{ tokens.consumer_token }}"/>
                     </div>
                     <div class="form-group">
                         <label for="consumer_secret">Consumer Secret:</label>
-                        <textarea id="consumer_secret" class="form-control" cols="80" rows="5"></textarea>
+                        <textarea id="consumer_secret" class="form-control" cols="80" rows="5">{{ tokens.consumer_secret }}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

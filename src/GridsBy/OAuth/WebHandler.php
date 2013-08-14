@@ -28,7 +28,12 @@ class WebHandler extends URLMap
     public function index($ctx)
     {
         if ($ctx['env']['REQUEST_METHOD'] == 'GET') {
-            $body = $this->twig->render('index.twig', $this->client->configData());
+            $data = $this->client->configData();
+            $data['config_file'] = $this->client->configPath();
+
+            $body = $this->twig->render('index.twig', $data);
+
+            return [StatusCode::OK, ['Content-type', 'text/html; charset=utf-8'], $body];
         } else {
             if (array_key_exists('action', $ctx['_POST'])) {
                 if ($ctx['_POST']['action'] == 'request_token') {
@@ -39,9 +44,9 @@ class WebHandler extends URLMap
                     return $this->redirectAfterPost($authorization_url);
                 }
             }
-        }
 
-        return [StatusCode::OK, ['Content-type', 'text/html; charset=utf-8'], $body];
+            return [StatusCode::BAD_REQUEST, ['Conent-type', 'text/html; charset=utf-8'], 'Bad request'];
+        }
     }
 
     public function callback($ctx)
