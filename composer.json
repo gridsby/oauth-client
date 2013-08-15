@@ -2,7 +2,7 @@
     "name": "gridsby/oauth-cli",
     "description": "CLI-tool for OAuth tests",
     "require": {
-        "aip/aip": "~0.9.11",
+        "aip/aip": "~0.10.0",
         "symfony/console": "~2.3",
         "symfony/yaml": "~2.3",
         "teapot/status": "dev-master",
