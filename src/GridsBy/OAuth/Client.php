@@ -61,6 +61,13 @@ class Client
         return $this->config_data;
     }
 
+    public function setConsumerCredentials($token, $secret)
+    {
+        $this->config_data['tokens']['consumer_token'] = $token;
+        $this->config_data['tokens']['consumer_secret'] = $secret;
+        $this->writeConfig();
+    }
+
     public function fetchRequestToken($callback = null)
     {
         $this->requireConsumer();

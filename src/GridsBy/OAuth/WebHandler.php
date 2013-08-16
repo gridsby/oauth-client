@@ -42,6 +42,9 @@ class WebHandler extends URLMap
                 } elseif ($ctx['_POST']['action'] == 'access_token') {
                     $authorization_url = $this->client->authorizationUrl();
                     return $this->redirectAfterPost($authorization_url);
+                } elseif ($ctx['_POST']['action'] == 'consumer_token') {
+                    $this->client->setConsumerCredentials($ctx['_POST']['consumer_token'], $ctx['_POST']['consumer_secret']);
+                    return $this->redirectAfterPost('http://127.0.0.1:8081/');
                 }
             }
 
