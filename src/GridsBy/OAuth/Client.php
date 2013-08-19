@@ -83,6 +83,13 @@ class Client
         $this->writeConfig();
     }
 
+    public function resetRequestToken()
+    {
+        $this->config_data['tokens']['request_token'] = '';
+        $this->config_data['tokens']['request_secret'] = '';
+        $this->writeConfig();
+    }
+
     public function authorizationUrl()
     {
         $this->requireRequestToken();

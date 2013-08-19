@@ -54,14 +54,35 @@ class WebHandler extends URLMap
 
     public function callback($ctx)
     {
-        $token = $ctx['_GET']['oauth_token'];
-        $verifier = $ctx['_GET']['oauth_verifier'];
+        if (isset($ctx['_GET']['oauth_token'])) {
+            if (!isset($ctx['_GET']['oauth_verifier'])) {
+                return [StatusCode::BAD_REQUEST, ['Content-type', 'text/html'], '<h1>Bad request</h1><p>Verifier is expected</p>'];
+            }
 
-        if ($token !== $this->client->configData()['tokens']['request_token']) {
-            return [StatusCode::NOT_FOUND, ['Content-type', 'text/plain; charset=utf-8'], 'token not found'];
+            $token = $ctx['_GET']['oauth_token'];
+            $verifier = $ctx['_GET']['oauth_verifier'];
+
+            if ($token !== $this->client->configData()['tokens']['request_token']) {
+                return [StatusCode::NOT_FOUND, ['Content-type', 'text/plain; charset=utf-8'], 'token not found'];
+            }
+
+            try {
+                $this->client->fetchAccessToken($verifier);
+            } catch (\Exception $e) {
+                $body = '<h1>Failed to fetch Access Token</h1><p>'.$e->getMessage().'</p>';
+                return [StatusCode::INTERNAL_SERVER_ERROR, ['Content-type', 'text/html'], $body];
+            }
+        } elseif (isset($ctx['_GET']['denied'])) {
+            $token = $ctx['_GET']['denied'];
+
+            if ($token !== $this->client->configData()['tokens']['request_token']) {
+                return [StatusCode::NOT_FOUND, ['Content-type', 'text/plain; charset=utf-8'], 'token not found'];
+            }
+
+            $this->client->resetRequestToken();
+        } else {
+            return [StatusCode::BAD_REQUEST, ['Content-type', 'text/html'], '<h1>Bad request</h1>'];
         }
-
-        $this->client->fetchAccessToken($verifier);
 
         return $this->redirectAfterPost('http://127.0.0.1:8081/');
     }
