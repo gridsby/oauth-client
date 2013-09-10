@@ -37,7 +37,7 @@ class Client
                 'access_secret' => null,
             ],
             'options' => [
-                'check_ssl' => false,
+                'check_ssl' => true,
             ]
         ];
 
