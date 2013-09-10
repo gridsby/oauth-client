@@ -3,7 +3,7 @@ oauth-client
 
 ## Installation
 
-The recommended way to install Silex is [through
+The recommended way to install OAuth-client is [through
 composer](http://getcomposer.org). Just create a `composer.json` file and
 run the `php composer.phar install` command to install it:
 
