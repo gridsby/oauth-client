@@ -1,6 +1,20 @@
 oauth-client
 ============
 
+## Installation
+
+The recommended way to install Silex is [through
+composer](http://getcomposer.org). Just create a `composer.json` file and
+run the `php composer.phar install` command to install it:
+
+    {
+        "require": {
+            "gridsby/oauth-cli": "dev-master"
+        }
+    }
+
+## Usage
+
 run `./vendor/bin/oauth-client` to get list of actions.
 
 * `request-token` — fetches Request Token [[6.1](http://oauth.net/core/1.0a/#auth_step1)]
