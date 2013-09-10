@@ -23,10 +23,10 @@ class Client
     {
         static $defaults = [
             'urls' => [
-                'consumer_register' => 'https://dev.grids.by.local/apps/',
-                'request_token_url' => 'https://api.grids.by.local/oauth/request_token',
-                'authorization_url' => 'https://dev.grids.by.local/oauth/authorize',
-                'access_token_url' =>  'https://api.grids.by.local/oauth/access_token',
+                'consumer_register' => 'https://dev.grids.by/apps/',
+                'request_token_url' => 'https://api.grids.by/oauth/request_token',
+                'authorization_url' => 'https://dev.grids.by/oauth/authorize',
+                'access_token_url' =>  'https://api.grids.by/oauth/access_token',
             ],
             'tokens' => [
                 'consumer_token' => null,
@@ -131,7 +131,8 @@ class Client
             is_null($tkns['consumer_token']) or
             is_null($tkns['consumer_secret'])
         ) {
-            throw new \LogicException('You should register your app at https://dev.grids.by.local/apps/ and set consumer_token and consumer_secret in '.$this->config_path);
+            $uri = $this->config_data['urls']['consumer_register'];
+            throw new \LogicException("You should register your app at {$uri} and set consumer_token and consumer_secret in {$this->config_path}");
         }
     }
 
