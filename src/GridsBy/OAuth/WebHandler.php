@@ -3,7 +3,7 @@ namespace GridsBy\OAuth;
 
 
 use AiP\Middleware\URLMap;
-use Teapot\HttpResponse\Status\StatusCode;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class WebHandler extends URLMap
@@ -19,7 +19,7 @@ class WebHandler extends URLMap
         $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem($root.'/templates'));
 
         parent::__construct([
-            '/favicon.ico' => function(){ return array(StatusCode::NOT_FOUND, array('Content-type', 'text/plain'), 'Page not found'); },
+            '/favicon.ico' => function(){ return array(Response::HTTP_NOT_FOUND, array('Content-type', 'text/plain'), 'Page not found'); },
             '/' => [$this, 'index'],
             '/callback/' => [$this, 'callback'],
         ]);
@@ -33,7 +33,7 @@ class WebHandler extends URLMap
 
             $body = $this->twig->render('index.twig', $data);
 
-            return [StatusCode::OK, ['Content-type', 'text/html; charset=utf-8'], $body];
+            return [Response::HTTP_OK, ['Content-type', 'text/html; charset=utf-8'], $body];
         } else {
             if (array_key_exists('action', $ctx['_POST'])) {
                 if ($ctx['_POST']['action'] == 'request_token') {
@@ -48,7 +48,7 @@ class WebHandler extends URLMap
                 }
             }
 
-            return [StatusCode::BAD_REQUEST, ['Conent-type', 'text/html; charset=utf-8'], 'Bad request'];
+            return [Response::HTTP_BAD_REQUEST, ['Conent-type', 'text/html; charset=utf-8'], 'Bad request'];
         }
     }
 
@@ -56,32 +56,32 @@ class WebHandler extends URLMap
     {
         if (isset($ctx['_GET']['oauth_token'])) {
             if (!isset($ctx['_GET']['oauth_verifier'])) {
-                return [StatusCode::BAD_REQUEST, ['Content-type', 'text/html'], '<h1>Bad request</h1><p>Verifier is expected</p>'];
+                return [Response::HTTP_BAD_REQUEST, ['Content-type', 'text/html'], '<h1>Bad request</h1><p>Verifier is expected</p>'];
             }
 
             $token = $ctx['_GET']['oauth_token'];
             $verifier = $ctx['_GET']['oauth_verifier'];
 
             if ($token !== $this->client->configData()['tokens']['request_token']) {
-                return [StatusCode::NOT_FOUND, ['Content-type', 'text/plain; charset=utf-8'], 'token not found'];
+                return [Response::HTTP_NOT_FOUND, ['Content-type', 'text/plain; charset=utf-8'], 'token not found'];
             }
 
             try {
                 $this->client->fetchAccessToken($verifier);
             } catch (\Exception $e) {
                 $body = '<h1>Failed to fetch Access Token</h1><p>'.$e->getMessage().'</p>';
-                return [StatusCode::INTERNAL_SERVER_ERROR, ['Content-type', 'text/html'], $body];
+                return [Response::HTTP_INTERNAL_SERVER_ERROR, ['Content-type', 'text/html'], $body];
             }
         } elseif (isset($ctx['_GET']['denied'])) {
             $token = $ctx['_GET']['denied'];
 
             if ($token !== $this->client->configData()['tokens']['request_token']) {
-                return [StatusCode::NOT_FOUND, ['Content-type', 'text/plain; charset=utf-8'], 'token not found'];
+                return [Response::HTTP_NOT_FOUND, ['Content-type', 'text/plain; charset=utf-8'], 'token not found'];
             }
 
             $this->client->resetRequestToken();
         } else {
-            return [StatusCode::BAD_REQUEST, ['Content-type', 'text/html'], '<h1>Bad request</h1>'];
+            return [Response::HTTP_BAD_REQUEST, ['Content-type', 'text/html'], '<h1>Bad request</h1>'];
         }
 
         return $this->redirectAfterPost('http://127.0.0.1:8081/');
@@ -90,7 +90,7 @@ class WebHandler extends URLMap
     private function redirectAfterPost($url)
     {
         return [
-            StatusCode::SEE_OTHER,
+            Response::HTTP_SEE_OTHER,
             [
                 'Content-type', 'text/html; charset=utf-8',
                 'Location', $url
