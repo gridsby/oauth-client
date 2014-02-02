@@ -16,7 +16,7 @@
         }
     ],
     "autoload": {
-        "psr-0": { "GridsBy\\OAuth": "src/" }
+        "psr-4": { "GridsBy\\OAuth\\": "src/" }
     },
     "bin": ["composer/bin/oauth-client"]
 }
